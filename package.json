@@ -1,0 +1,61 @@
+{
+  "name": "vision-maker-translation-helper",
+  "version": "1.0.0",
+  "description": "월드비전 비전메이커 번역봉사단의 편지 번역을 돕는 도구",
+  "main": "content.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint *.js",
+    "build": "echo \"No build process required for this extension\"",
+    "dev": "echo \"Load extension in Chrome Developer Mode from this directory\"",
+    "zip": "zip -r vision-maker-translation-helper.zip . -x '*.git*' 'node_modules/*' '*.DS_Store*' 'package*.json' 'dev-utils.js'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "world-vision",
+    "translation",
+    "volunteer",
+    "letter-template"
+  ],
+  "author": "World Vision Korea Volunteer Team",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "private"
+  },
+  "extensionInfo": {
+    "manifest_version": 3,
+    "target_browser": "Chrome 88+",
+    "permissions": [
+      "scripting",
+      "activeTab", 
+      "tabs"
+    ],
+    "host_permissions": [
+      "https://letter.worldvision.or.kr/*"
+    ]
+  },
+  "development": {
+    "debugging": {
+      "enabled": "Add ?vm_debug=1 to URL or set localStorage.vm_helper_debug=true",
+      "functions": "Use vmDebug.* in console for testing"
+    },
+    "structure": {
+      "config": "config.js - Central configuration",
+      "utils": "utils.js - Utility functions", 
+      "templates": "letter-templates.js - Template generation",
+      "ui": "ui-components.js - User interface",
+      "rating": "auto-rating.js - Auto-rating functionality",
+      "popup": "popup-to-tab.js - Popup conversion",
+      "content": "content.js - Main content script",
+      "background": "background.js - Service worker"
+    }
+  }
+}
