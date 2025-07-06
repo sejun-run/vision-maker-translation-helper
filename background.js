@@ -15,7 +15,7 @@ class BackgroundManager {
   initializeExtension() {
     console.log('VM Helper Background: Initializing...');
     
-    // Set up action click handler (for toolbar button and keyboard shortcut)
+    // Set up action click handler (for toolbar button only)
     this.setupActionHandler();
     
     // Set up message handler for content script communication
@@ -25,7 +25,7 @@ class BackgroundManager {
   }
 
   /**
-   * Set up the action click handler for toolbar button and shortcuts
+   * Set up the action click handler for toolbar button
    */
   setupActionHandler() {
     // Check if chrome.action is available before using it
@@ -34,7 +34,7 @@ class BackgroundManager {
       return;
     }
 
-    // Handle action clicks (toolbar button or Ctrl+Shift+V shortcut)
+    // Handle action clicks (toolbar button only)
     chrome.action.onClicked.addListener((tab) => {
       this.handleActionClick(tab);
     });
@@ -56,9 +56,9 @@ class BackgroundManager {
         return;
       }
 
-      // Check if tab URL matches our target domain
+      // Check if tab URL is the letter translation page
       if (!this.isTargetDomain(tab.url)) {
-        console.log('VM Helper Background: Not on target domain, ignoring');
+        console.log('VM Helper Background: Not on letter translation page, ignoring');
         return;
       }
 
@@ -71,13 +71,13 @@ class BackgroundManager {
   }
 
   /**
-   * Check if the current URL is on the target domain
+   * Check if the current URL is the letter translation page
    * @param {string} url - URL to check
-   * @returns {boolean} True if on target domain
+   * @returns {boolean} True if on letter translation page
    */
   isTargetDomain(url) {
     if (!url) return false;
-    return url.includes('letter.worldvision.or.kr');
+    return url.includes('letter.worldvision.or.kr') && url.includes('letterview.do');
   }
 
   /**

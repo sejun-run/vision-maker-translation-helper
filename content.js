@@ -9,6 +9,7 @@ class VMHelper {
     this.uiManager = null;
     this.autoRatingManager = null;
     this.isInitialized = false;
+    this.setupKeyboardShortcuts();
   }
 
   /**
@@ -85,6 +86,23 @@ class VMHelper {
       ErrorUtils.logError('Show helper', error);
       ErrorUtils.showUserError('도우미를 표시하는 중 오류가 발생했습니다.', true);
     }
+  }
+
+  /**
+   * Setup keyboard shortcuts for the helper
+   */
+  setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (event) => {
+      // Check for Alt+Shift+V
+      const isShortcut = event.altKey && event.shiftKey && event.key === 'V';
+      
+      if (isShortcut) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('VM Helper: Keyboard shortcut triggered');
+        this.showHelper();
+      }
+    }, true); // Use capture phase to ensure we catch the event first
   }
 
   /**

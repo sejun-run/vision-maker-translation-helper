@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "비전메이커 번역 도우미",
-  "version": "1.0",
+  "version": "1.1.0",
   "description": "월드비전 비전메이커 번역봉사단의 편지 번역을 돕는 도구",
   "permissions": [
     "scripting",
@@ -16,14 +16,20 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://letter.worldvision.or.kr/*"],
+      "matches": ["https://letter.worldvision.or.kr/mypage/letterlist/*"],
+      "js": [
+        "popup-to-tab.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://letter.worldvision.or.kr/mypage/letterlist/letterview.do*"],
       "js": [
         "config.js",
         "utils.js", 
         "letter-templates.js",
         "ui-components.js",
         "auto-rating.js",
-        "popup-to-tab.js", 
         "content.js"
       ],
       "run_at": "document_end"
@@ -49,14 +55,5 @@
     "32": "VM_logo.png",
     "48": "VM_logo.png",
     "128": "VM_logo.png"
-  },
-  "commands": {
-    "_execute_action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+V",
-        "mac": "Command+Shift+V"
-      },
-      "description": "비전메이커 번역 도우미 실행"
-    }
   }
 }
