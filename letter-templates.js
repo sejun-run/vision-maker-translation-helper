@@ -23,7 +23,7 @@ class LetterTemplateGenerator {
 
     // Helper statements for different author types
     this.helperStatements = {
-      [VM_CONFIG.AUTHOR_TYPES.NAMED_HELPER]: '*이 편지를 작성하는데 (자원봉사자/엄마/아빠/할머니/고모 등)인 한글독음(영문병기)가 도와주셨어요.',
+      [VM_CONFIG.AUTHOR_TYPES.NAMED_HELPER]: '*이 편지를 작성하는데 인 ()가 도와주셨어요.',
       [VM_CONFIG.AUTHOR_TYPES.ANONYMOUS_HELPER]: '*이 편지는 현지사업장 자원봉사자 혹은 가족의 도움으로 작성되었어요.',
       [VM_CONFIG.AUTHOR_TYPES.CHILD]: ''
     };

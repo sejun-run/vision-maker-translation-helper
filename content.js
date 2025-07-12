@@ -39,6 +39,17 @@ class VMHelper {
       if (shouldAutoRun) {
         console.log('VM Helper: Auto helper parameter detected');
         await this.handleAutoMode();
+  // Override window.alert to listen for specific message
+  const originalAlert = window.alert;
+  window.alert = function(message) {
+    // Check for the specific translation complete message
+    if (message === '번역완료 되었습니다.') {
+      // Send a message to the background script to close the tab
+      chrome.runtime.sendMessage({ action: 'closeTab' });
+    }
+    // Call the original alert
+    originalAlert.apply(window, arguments);
+  };
       } else {
         console.log('VM Helper: Manual mode - floating button ready for user interaction');
       }

@@ -159,6 +159,17 @@ class BackgroundManager {
           sendResponse({ success: true });
           break;
           
+        case 'closeTab':
+          // Close the sender's tab if possible
+          if (sender.tab && sender.tab.id) {
+            chrome.tabs.remove(sender.tab.id, () => {
+              sendResponse({ success: true });
+            });
+          } else {
+            sendResponse({ success: false, error: 'No tab ID found in sender.' });
+          }
+          break;
+          
         default:
           console.warn('VM Helper Background: Unknown message action:', message.action);
           sendResponse({ success: false, error: 'Unknown action' });
