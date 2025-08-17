@@ -163,6 +163,21 @@ class BackgroundManager {
           // Close the sender's tab if possible
           if (sender.tab && sender.tab.id) {
             chrome.tabs.remove(sender.tab.id, () => {
+              // Try to refresh the opener tab (letterlist.do)
+              // If openerTabId is provided, use it; otherwise, try to find the opener
+              const openerTabId = message.openerTabId;
+              if (openerTabId) {
+                chrome.tabs.reload(openerTabId);
+              } else if (sender.tab.openerTabId) {
+                chrome.tabs.reload(sender.tab.openerTabId);
+              } else {
+                // Fallback: try to find a tab with letterlist.do in its URL
+                chrome.tabs.query({ url: '*://letter.worldvision.or.kr/mypage/letterlist.do*' }, (tabs) => {
+                  if (tabs && tabs.length > 0) {
+                    chrome.tabs.reload(tabs[0].id);
+                  }
+                });
+              }
               sendResponse({ success: true });
             });
           } else {

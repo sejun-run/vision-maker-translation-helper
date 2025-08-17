@@ -140,6 +140,10 @@ class UIManager {
     const letterTypes = this.letterTemplateGenerator.getLetterTypes();
     const authorTypes = this.letterTemplateGenerator.getAuthorTypes();
 
+    // Load saved letter type from local storage
+    const savedLetterType = localStorage.getItem('selectedLetterType');
+    const savedAuthorType = localStorage.getItem('selectedAuthorType');
+
     return `
       <div id="wv-helper-header">
         <div class="wv-header-content">
@@ -156,8 +160,8 @@ class UIManager {
           <h3 class="wv-section-title">편지 유형 선택</h3>
           <div class="wv-card-group">
             ${letterTypes.map((type, index) => `
-              <label class="wv-card ${index === 0 ? 'wv-card-selected' : ''}">
-                <input type="radio" name="letterType" value="${type.value}" ${index === 0 ? 'checked' : ''}>
+              <label class="wv-card ${type.value === savedLetterType ? 'wv-card-selected' : ''}">
+                <input type="radio" name="letterType" value="${type.value}" ${type.value === savedLetterType ? 'checked' : ''}>
                 <div class="wv-card-content">
                   <div class="wv-card-icon">${type.icon}</div>
                   <span class="wv-card-label">${type.label}</span>
@@ -172,8 +176,8 @@ class UIManager {
           <h3 class="wv-section-title">작성자 유형</h3>
           <div class="wv-option-group">
             ${authorTypes.map((type, index) => `
-              <label class="wv-option ${index === 2 ? 'wv-option-selected' : ''}">
-                <input type="radio" name="authorType" value="${type.value}" ${index === 2 ? 'checked' : ''}>
+              <label class="wv-option ${type.value === savedAuthorType ? 'wv-card-selected' : ''}">
+                <input type="radio" name="authorType" value="${type.value}" ${type.value === savedAuthorType ? 'checked' : ''}>
                 <span class="wv-radio-custom"></span>
                 <div class="wv-option-text">
                   <span class="wv-option-label">${type.label}</span>
@@ -276,16 +280,19 @@ class UIManager {
    */
   handleLetterTypeChange(radio) {
     if (!radio.checked) return;
-    
+
     // Remove selection from all cards
     const allCards = DOMUtils.safeQuerySelectorAll('.wv-card', this.container);
     allCards.forEach(card => card.classList.remove('wv-card-selected'));
-    
+
     // Add selection to current card
     const currentCard = radio.closest('.wv-card');
     if (currentCard) {
       currentCard.classList.add('wv-card-selected');
     }
+
+    // Save selected option to local storage
+    localStorage.setItem('selectedLetterType', radio.value);
   }
 
   /**
@@ -304,6 +311,9 @@ class UIManager {
     if (currentOption) {
       currentOption.classList.add('wv-option-selected');
     }
+
+    // Save selected option to local storage
+    localStorage.setItem('selectedAuthorType', radio.value);
   }
 
   /**
@@ -397,9 +407,7 @@ class UIManager {
     textarea.value = template;
     textarea.focus();
     
-    console.log('VM Helper: Template inserted successfully');
-    console.log(template);
-    
+    console.log('VM Helper: Template inserted successfully');    
     return true;
   }
 
